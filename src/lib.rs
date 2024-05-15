@@ -1,7 +1,6 @@
-pub use schema::parse_schema;
-pub use schema::PartialTypeScript;
+pub use oas::*;
+pub use parser::parse_schema;
 
-pub mod error;
-mod reference;
-mod schema;
-mod types;
+mod oas;
+mod parser;
+mod partial;
