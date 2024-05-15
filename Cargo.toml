@@ -5,3 +5,9 @@ edition = "2021"
 
 [dependencies]
 openapiv3 = "2.0.0"
+thiserror = "1"
+
+[dev-dependencies]
+reqwest = { version = "0.12", features = ["blocking"] }
+serde_yaml = "0.9"
+indexmap = "2.2.6"
