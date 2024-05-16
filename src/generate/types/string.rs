@@ -10,11 +10,13 @@ pub fn generate_string(string_type: &StringType) -> Cow<str> {
 }
 
 fn generate_enumeration(values: &Vec<String>) -> Cow<str> {
-    let enumeration = values
+    let mut enumeration = values
         .iter()
         .map(|item| format!("\"{}\"", item))
         .collect::<Vec<String>>()
         .join("|");
+    enumeration.insert(0, '(');
+    enumeration.push(')');
     Cow::Owned(enumeration)
 }
 

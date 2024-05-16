@@ -1,7 +1,8 @@
 use std::borrow::Cow;
 
-use openapiv3::{OpenAPI, Schema};
+use openapiv3::{OpenAPI, Operation, PathItem, RefOr, Schema};
 
+use crate::generate::path::parse_path;
 use crate::schema;
 
 #[derive(Debug)]
@@ -95,6 +96,54 @@ impl Generator {
         };
 
         schema::generate_schema(schema, cow)
+    }
+
+    pub fn generate_path(&self, operation_id: String) -> Option<PartialGeneration> {
+        for (name, element) in &self.openapi.paths.paths {
+            let path = match element {
+                RefOr::Reference { .. } => unimplemented!(),
+                RefOr::Item(path) => path,
+            };
+            let op = match Self::find_path(&path, &operation_id) {
+                Some(op) => op,
+                None => continue,
+            };
+            let generation = parse_path(path, op, &self.openapi);
+            return Some(generation);
+        }
+        None
+    }
+
+    fn find_path<'a, 'b>(path: &'a PathItem, operation_id: &'b String) -> Option<&'a Operation> {
+        if let Some(op) = &path.get {
+            if let Some(op_id) = &op.operation_id {
+                if op_id == operation_id {
+                    return Some(op);
+                }
+            }
+        };
+        if let Some(op) = &path.post {
+            if let Some(op_id) = &op.operation_id {
+                if op_id == operation_id {
+                    return Some(op);
+                }
+            }
+        };
+        if let Some(op) = &path.put {
+            if let Some(op_id) = &op.operation_id {
+                if op_id == operation_id {
+                    return Some(op);
+                }
+            }
+        };
+        if let Some(op) = &path.delete {
+            if let Some(op_id) = &op.operation_id {
+                if op_id == operation_id {
+                    return Some(op);
+                }
+            }
+        };
+        None
     }
 
     pub fn openapi(&self) -> &OpenAPI {

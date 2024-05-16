@@ -11,10 +11,11 @@ fn asana_works() {
         skip_read_only: true,
     };
     let generator = Generator::new(oas, options);
-
-    for (name, schema) in &generator.openapi().schemas {
-        let parsed_schema = schema.resolve(generator.openapi());
-        let partial_generation = generator.generate_schema(parsed_schema, None);
-        println!("type {}={};", name.as_str(), partial_generation.typescript)
+    for (name, _) in &generator.openapi().paths.paths {
+        dbg!(name);
     }
+    let r = generator
+        .generate_path("createSubtaskForTask".to_string())
+        .unwrap();
+    println!("{}", r.typescript);
 }
