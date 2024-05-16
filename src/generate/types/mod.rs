@@ -11,29 +11,33 @@ mod number;
 mod object;
 mod string;
 
-pub fn generate_type<'a>(
+pub fn generate_type<'a, 'b>(
     typ: &'a Type,
     schema_data: &'a SchemaData,
-    options: Cow<'a, GeneratorOptions>,
+    options: Cow<'b, GeneratorOptions>,
 ) -> PartialGeneration<'a> {
     let mut partial_generation = match typ {
         Type::String(string_type) => PartialGeneration {
             typescript: string::generate_string(string_type),
             references: vec![],
+            read_only: schema_data.read_only,
         },
         Type::Number(number_type) => PartialGeneration {
             typescript: number::generate_number(number_type),
             references: vec![],
+            read_only: schema_data.read_only,
         },
         Type::Integer(integer_type) => PartialGeneration {
             typescript: integer::generate_integer(integer_type),
             references: vec![],
+            read_only: schema_data.read_only,
         },
-        Type::Object(object_type) => object::generate_object(object_type, options),
-        Type::Array(array_type) => array::generate_array(array_type, options),
+        Type::Object(object_type) => object::generate_object(object_type, schema_data, options),
+        Type::Array(array_type) => array::generate_array(array_type, schema_data, options),
         Type::Boolean {} => PartialGeneration {
             typescript: boolean::generate_boolean(),
             references: vec![],
+            read_only: schema_data.read_only,
         },
     };
 

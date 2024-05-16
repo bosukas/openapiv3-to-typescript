@@ -26,12 +26,7 @@ pub struct GeneratorOptions {
 pub struct PartialGeneration<'a> {
     pub typescript: Cow<'a, str>,
     pub references: Vec<Cow<'a, str>>,
-}
-
-#[derive(Debug)]
-pub struct PartialVecGeneration<'a> {
-    pub typescript: Vec<Cow<'a, str>>,
-    pub references: Vec<Cow<'a, str>>,
+    pub read_only: bool,
 }
 
 impl Generator {

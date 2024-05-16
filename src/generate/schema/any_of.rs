@@ -1,19 +1,41 @@
 use std::borrow::Cow;
 
 use itertools::Itertools;
-use openapiv3::{RefOr, Schema};
+use openapiv3::{RefOr, Schema, SchemaData, SchemaReference};
 
 use crate::{GeneratorOptions, PartialGeneration};
-use crate::schema::generate_schemas;
 
-pub fn generate_schema<'a>(
+pub fn generate<'a, 'b>(
     schemas: &'a Vec<RefOr<Schema>>,
-    options: Cow<'a, GeneratorOptions>,
+    schema_data: &'a SchemaData,
+    options: Cow<'b, GeneratorOptions>,
 ) -> PartialGeneration<'a> {
-    let partial_generation = generate_schemas(schemas, options);
+    let mut typescript: Vec<Cow<str>> = vec![];
+    let mut references: Vec<Cow<str>> = vec![];
+
+    for element in schemas {
+        match element {
+            RefOr::Reference { reference } => match SchemaReference::from_str(reference) {
+                SchemaReference::Schema { schema } => {
+                    typescript.push(Cow::Owned(schema));
+                    references.push(Cow::Borrowed(reference))
+                }
+                SchemaReference::Property { .. } => unimplemented!(),
+            },
+            RefOr::Item(schema) => {
+                let partial_generation = crate::schema::generate_schema(schema, options.clone());
+                for reference in partial_generation.references {
+                    references.push(reference);
+                }
+                typescript.push(partial_generation.typescript)
+            }
+        }
+    }
+
     PartialGeneration {
-        typescript: generate_definition(partial_generation.typescript),
-        references: partial_generation.references,
+        typescript: generate_definition(typescript),
+        references,
+        read_only: schema_data.read_only,
     }
 }
 
@@ -37,7 +59,7 @@ pub fn generate_definition(types: Vec<Cow<str>>) -> Cow<str> {
 
 #[cfg(test)]
 pub mod tests {
-    use crate::generate::any_of::generate_definition;
+    use crate::generate::schema::any_of::generate_definition;
 
     #[test]
     fn one_type() {
