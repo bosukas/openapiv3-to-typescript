@@ -1,6 +1,6 @@
-pub use oas::*;
-pub use parser::parse_schema;
+pub use generate::schema;
+pub use generator::*;
 
-mod oas;
-mod parser;
-mod partial;
+mod generate;
+mod generator;
+

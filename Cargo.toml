@@ -6,6 +6,7 @@ edition = "2021"
 [dependencies]
 openapiv3-extended = "6.0.0"
 thiserror = "1"
+itertools = "0.12"
 
 [dev-dependencies]
 reqwest = { version = "0.12", features = ["blocking"] }

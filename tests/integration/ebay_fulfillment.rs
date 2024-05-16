@@ -3,9 +3,9 @@ use openapiv3_to_typescript::{Generator, GeneratorOptions};
 use crate::helpers::fetch_oas_yaml;
 
 #[test]
-fn xero_accounting_works() {
+fn ebay_fulfillment_works() {
     let oas = fetch_oas_yaml(
-        "https://raw.githubusercontent.com/XeroAPI/Xero-OpenAPI/master/xero_accounting.yaml",
+        "https://developer.ebay.com/api-docs/master/sell/fulfillment/openapi/3/sell_fulfillment_v1_oas3.yaml",
     );
     let options = GeneratorOptions {
         skip_read_only: true,
