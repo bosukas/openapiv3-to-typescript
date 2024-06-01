@@ -5,6 +5,7 @@ repository = "https://github.com/bosukas/openapiv3-to-typescript"
 readme = "README.md"
 version = "0.1.0"
 edition = "2021"
+license = "Apache-2.0"
 
 [dependencies]
 openapiv3-extended = "6.0.0"
