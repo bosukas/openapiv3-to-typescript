@@ -1,12 +1,15 @@
 [package]
 name = "openapiv3-to-typescript"
+description = "Generate TypeScript from OpenAPIv3"
+repository = "https://github.com/bosukas/openapiv3-to-typescript"
+readme = ""
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 openapiv3-extended = "6.0.0"
 thiserror = "1"
-itertools = "0.12"
+itertools = "0.13.0"
 
 [dev-dependencies]
 reqwest = { version = "0.12", features = ["blocking"] }
