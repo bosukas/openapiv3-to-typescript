@@ -5,8 +5,11 @@
 Create an instance of `Generator` to parse types.
 
 ## Installation
+```toml
+[dependencies]
+openapiv3-to-typescript = ".."
+```
 
-WIP
 
 ## Contribution
 
