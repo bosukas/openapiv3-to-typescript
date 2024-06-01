@@ -34,7 +34,7 @@ mod tests {
             "c".to_string(),
             "d".to_string(),
         ];
-        assert_eq!(generate_enumeration(&values), "\"a\"|\"b\"|\"c\"|\"d\"")
+        assert_eq!(generate_enumeration(&values), "(\"a\"|\"b\"|\"c\"|\"d\")")
     }
 
     #[test]
@@ -52,6 +52,6 @@ mod tests {
             "e".to_string(),
             "g".to_string(),
         ];
-        assert_eq!(generate_string(&string_type), "\"a\"|\"c\"|\"e\"|\"g\"")
+        assert_eq!(generate_string(&string_type), "(\"a\"|\"c\"|\"e\"|\"g\")")
     }
 }

@@ -68,7 +68,7 @@ mod tests {
 
         let result = generate_type(&typ, &schema_data, Cow::Owned(options));
 
-        let expected_typescript = "string|null";
+        let expected_typescript = "(string|null)";
         let expected_references: Vec<String> = vec![];
         assert_eq!(result.typescript, expected_typescript);
         assert_eq!(result.references, expected_references);
