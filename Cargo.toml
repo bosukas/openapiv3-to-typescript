@@ -2,7 +2,7 @@
 name = "openapiv3-to-typescript"
 description = "Generate TypeScript from OpenAPIv3"
 repository = "https://github.com/bosukas/openapiv3-to-typescript"
-readme = ""
+readme = "README.md"
 version = "0.1.0"
 edition = "2021"
 
